@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>To Do App - Angularjs</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+	<style type="text/css">
+		body{
+			margin:0;
+			padding:0;
+			font-size: 10px;
+		}
+		.mainWrapper{
+			width: 25rem;
+			height: auto;
+			margin:8% auto;
+			padding:1% 2%;
+			background-color: #e6e6e6;
+		}
+		h2{
+			text-align: center;
+			font-size: 1.4rem;
+		}
+		.addNew{
+			text-align: center;
+		}
+		.addNew input{
+			outline: none;
+		}
+		.addNew button{
+			background-color: #0d942f;
+			color:white;
+			border:none;
+			outline: none;
+		}
+		ul{
+			list-style: none;
+			margin-left: 15%;
+			font-size: 1.1rem;
+			line-height: 1.5;
+		}
+		li button{
+			float: right;
+			margin-right: 33%; 
+			background-color: red;
+			color:white;
+			border:none;
+			outline: none;
+		}
+		.error{
+			text-align: center;
+			color:orange;
+			font-size: 1.1rem;
+		}
+	</style>
+</head>
+<body>
+	<div class="mainWrapper" ng-app="ToDo" ng-controller="toDoController">
+		<h2>To Do App - Angularjs</h2>
+		<!-- Input box and add button -->
+		<div class="addNew">
+			<input type="text" placeholder="Add New Items.." ng-model="addMe">
+			<button ng-click="addItem()">+</button>
+		</div>
+		<ul>
+			<!-- Showing all items with delete button -->
+			<li ng-repeat="x in Items">{{x}}<button class="deleteItems" ng-click="deleteItems($index)">x</button></li>
+		</ul>
+
+		<!-- Print error message if item already exist in the list -->
+		<div class="error">
+			<p>{{errormessage}}</p>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var app = angular.module("ToDo", []);
+		app.controller('toDoController', function($scope){
+			$scope.Items = ["First Item","Second Item"];
+
+			//add new item function
+			$scope.addItem = function(){
+				$scope.errormessage = "";
+				if(!$scope.addMe){return;}
+				if($scope.Items.indexOf($scope.addMe) == -1){
+					$scope.Items.push($scope.addMe);
+				}
+				else{
+					$scope.errormessage = "This item already exist."
+				}
+			}
+
+			//remove an item form item list
+			$scope.deleteItems = function(x){
+				$scope.Items.splice(x,1);
+			}
+		});
+	</script>
+</body>
+</html>
